@@ -1,6 +1,6 @@
-import 'package:app/domain/user.dart';
-import 'package:app/repository/database_provider.dart';
-import 'package:app/repository/tables/user_table.dart';
+import 'package:when_was_it/domain/user.dart';
+import 'package:when_was_it/repository/database_provider.dart';
+import 'package:when_was_it/repository/tables/user_table.dart';
 
 class UserRepository {
   Future<int> createUser(User user) async {

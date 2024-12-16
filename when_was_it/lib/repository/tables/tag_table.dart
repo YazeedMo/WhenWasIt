@@ -1,4 +1,4 @@
-import 'package:app/repository/tables/user_table.dart';
+import 'package:when_was_it/repository/tables/user_table.dart';
 
 class TagTable {
   static const String tableName = 'tags';

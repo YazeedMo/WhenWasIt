@@ -1,6 +1,6 @@
-import 'package:app/domain/reminder.dart';
-import 'package:app/repository/database_provider.dart';
-import 'package:app/repository/tables/reminder_table.dart';
+import 'package:when_was_it/domain/reminder.dart';
+import 'package:when_was_it/repository/database_provider.dart';
+import 'package:when_was_it/repository/tables/reminder_table.dart';
 
 class ReminderRepository {
   Future<int> createReminder(Reminder reminder) async {

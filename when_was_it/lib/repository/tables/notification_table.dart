@@ -1,4 +1,4 @@
-import 'package:app/repository/tables/reminder_table.dart';
+import 'package:when_was_it/repository/tables/reminder_table.dart';
 
 class NotificationTable {
   static const String tableName = 'notifications';

@@ -1,6 +1,6 @@
-import 'package:app/domain/notification.dart';
-import 'package:app/repository/database_provider.dart';
-import 'package:app/repository/tables/notification_table.dart';
+import 'package:when_was_it/domain/notification.dart';
+import 'package:when_was_it/repository/database_provider.dart';
+import 'package:when_was_it/repository/tables/notification_table.dart';
 
 class NotificationRepository {
   Future<int> createNotification(Notification notification) async {

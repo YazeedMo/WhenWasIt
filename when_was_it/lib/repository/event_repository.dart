@@ -1,6 +1,6 @@
-import 'package:app/domain/event.dart';
-import 'package:app/repository/database_provider.dart';
-import 'package:app/repository/tables/event_table.dart';
+import 'package:when_was_it/domain/event.dart';
+import 'package:when_was_it/repository/database_provider.dart';
+import 'package:when_was_it/repository/tables/event_table.dart';
 
 class EventRepository {
 

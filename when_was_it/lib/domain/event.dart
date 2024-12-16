@@ -1,4 +1,4 @@
-import 'package:app/repository/tables/event_table.dart';
+import 'package:when_was_it/repository/tables/event_table.dart';
 
 class Event {
   final int? id;

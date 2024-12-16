@@ -1,6 +1,6 @@
-import 'package:app/domain/tag.dart';
-import 'package:app/repository/database_provider.dart';
-import 'package:app/repository/tables/tag_table.dart';
+import 'package:when_was_it/domain/tag.dart';
+import 'package:when_was_it/repository/database_provider.dart';
+import 'package:when_was_it/repository/tables/tag_table.dart';
 
 class TagRepository {
   Future<int> createTag(Tag tag) async {

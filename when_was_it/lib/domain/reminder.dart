@@ -1,4 +1,4 @@
-import 'package:ap/repository/tables/reminder_table.dart';
+import 'package:when_was_it/repository/tables/reminder_table.dart';
 
 class Reminder {
   final int? id;

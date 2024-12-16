@@ -1,7 +1,7 @@
-import 'package:app/repository/tables/event_table.dart';
-import 'package:app/repository/tables/event_tag_table.dart';
-import 'package:app/repository/tables/tag_table.dart';
-import 'package:app/repository/tables/user_table.dart';
+import 'package:when_was_it/repository/tables/event_table.dart';
+import 'package:when_was_it/repository/tables/event_tag_table.dart';
+import 'package:when_was_it/repository/tables/tag_table.dart';
+import 'package:when_was_it/repository/tables/user_table.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
