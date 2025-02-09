@@ -1,0 +1,79 @@
+- Events should track the date it happened, the user that created it, a title, and a description
+- I'm not sure if I want to explicitly differentiate between one-time and recurring events
+- Advanced search capabilities would be nice but not important at the moment. Searching by event title is the most important
+- Upcoming reminders and a to do list for recurring tasks would be a nice to have
+- Push notifications will be sufficient for now
+- For now, only the event creator should have crud permissions while other family members only have read permissions. But in the future, I would like to add advanced settings for multiple users doing crud options based on the creator's setting
+- Shared events notifications should go to all shared members and the creator
+- Each family member should be able to create their own personal, separate account. It should not only be restricted to family members. I would like to have something like searching user's by username (any user anywhere) and sharing events with the person
+- Flexible tags would work better I believe since tags might fit in multiple categories
+- tags should remain personal, but if shared, the shared person should always have a 'shared' tag
+- usernames and password is enough security for now
+- I would google calendar to be integrated in the future, but a custom calendar would be sufficient for now
+- exporting reports would be a nice feature for later but not important at the moment
+- Reminder examples:
+	- reminder on specific day
+	- reminder in specific intervals
+	- reminder on specific day and intervals after that
+
+CREATE DATABASE WhenWasItDB;
+GO
+
+USE WhenWasItDB;
+GO
+
+-- Table: Users
+CREATE TABLE Users (
+	user_id INT PRIMARY KEY IDENTITY(1, 1),
+	username VARCHAR(50) NOT NULL UNIQUE,
+    	password VARCHAR(255) NOT NULL,
+    	email VARCHAR(255) UNIQUE
+);
+
+-- Table: Events
+CREATE TABLE Events (
+    	event_id INT PRIMARY KEY IDENTITY(1, 1),
+    	title VARCHAR(100) NOT NULL,
+    	description TEXT,
+    	event_date DATE NOT NULL,
+    	user_id INT NOT NULL,
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Table: Tags
+CREATE TABLE Tags (
+    	tag_id INT PRIMARY KEY IDENTITY(1, 1),
+    	name VARCHAR(50) NOT NULL,
+    	user_id INT NOT NULL,
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Table: EventTags
+CREATE TABLE EventTags (
+    	event_id INT NOT NULL,
+    	tag_id INT NOT NULL,
+    	PRIMARY KEY (event_id, tag_id),
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id),
+    	FOREIGN KEY (tag_id) REFERENCES Tags(tag_id)
+);
+
+-- Table: SharedEvents
+CREATE TABLE SharedEvents (
+    	shared_event_id INT PRIMARY KEY IDENTITY(1, 1),
+    	event_id INT NOT NULL,
+    	user_id INT NOT NULL,
+    	permissions VARCHAR(20) CHECK (permissions IN ('Read', 'Write')) DEFAULT 'Read',
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id),
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+
+-- Table: Reminders
+CREATE TABLE Reminders (
+    	reminder_id INT PRIMARY KEY IDENTITY(1, 1),
+    	title VARCHAR(50) NOT NULL,
+    	description TEXT,
+    	interval INT,
+    	next_reminder_date DATETIME NOT NULL,
+    	event_id INT NOT NULL,
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id)
+);
