@@ -1,0 +1,110 @@
+CREATE DATABASE WhenWasItDB;
+GO
+
+USE WhenWasItDB;
+GO
+
+DROP TABLE IF EXISTS Reminders;
+DROP TABLE IF EXISTS SharedEvents;
+DROP TABLE IF EXISTS EventTags;
+DROP TABLE IF EXISTS Tags;
+DROP TABLE IF EXISTS Events;
+DROP TABLE IF EXISTS Users;
+
+-- Table: Users
+CREATE TABLE Users (
+	user_id INT PRIMARY KEY IDENTITY(1, 1),
+	username VARCHAR(50) NOT NULL UNIQUE,
+    	password VARCHAR(255) NOT NULL,
+    	email VARCHAR(255) UNIQUE
+);
+
+-- Table: Events
+CREATE TABLE Events (
+    	event_id INT PRIMARY KEY IDENTITY(1, 1),
+    	title VARCHAR(100) NOT NULL,
+    	description TEXT,
+    	event_date DATE NOT NULL,
+    	user_id INT NOT NULL,
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+	ON DELETE CASCADE
+);
+
+-- Table: Tags
+CREATE TABLE Tags (
+    	tag_id INT PRIMARY KEY IDENTITY(1, 1),
+    	name VARCHAR(50) NOT NULL,
+    	user_id INT NOT NULL,
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+	ON DELETE CASCADE
+);
+
+-- Table: EventTags
+CREATE TABLE EventTags (
+    	event_id INT NOT NULL,
+    	tag_id INT NOT NULL,
+    	PRIMARY KEY (event_id, tag_id),
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id)
+	ON DELETE CASCADE,
+    	FOREIGN KEY (tag_id) REFERENCES Tags(tag_id)
+	ON DELETE NO ACTION
+);
+
+-- Table: SharedEvents
+CREATE TABLE SharedEvents (
+    	shared_event_id INT PRIMARY KEY IDENTITY(1, 1),
+    	event_id INT NOT NULL,
+    	user_id INT NOT NULL,
+    	permissions VARCHAR(20) CHECK (permissions IN ('Read', 'Write')) DEFAULT 'Read',
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id)
+	ON DELETE CASCADE,
+    	FOREIGN KEY (user_id) REFERENCES Users(user_id)
+	ON DELETE NO ACTION
+);
+
+-- Table: Reminders
+CREATE TABLE Reminders (
+    	reminder_id INT PRIMARY KEY IDENTITY(1, 1),
+    	title VARCHAR(50) NOT NULL,
+    	description TEXT,
+    	interval INT,
+    	next_reminder_date DATETIME NOT NULL,
+    	event_id INT NOT NULL,
+    	FOREIGN KEY (event_id) REFERENCES Events(event_id)
+	ON DELETE CASCADE
+);
+
+-- Sample Data
+-- Insert Users
+INSERT INTO Users (username, password, email) VALUES
+	('john_doe', 'password123', 'john.doe@example.com'),
+	('jane_smith', 'securepass', 'jane.smith@example.com'),
+	('alice_wong', 'mypassword', 'alice.wong@example.com');
+
+-- Insert Events
+INSERT INTO Events (title, description, event_date, user_id) VALUES
+	('Change Vacuum Bag', 'Replaced the vacuum cleaner bag', '2025-01-15', 1),
+	('Dentist Appointment', 'Routine dental check-up', '2025-02-01', 2),
+	('Hairdresser Visit', 'Got a haircut and styling', '2025-01-20', 3);
+
+-- Insert Tags
+INSERT INTO Tags (name, user_id) VALUES
+	('Maintenance', 1),
+	('Health', 2),
+	('Personal Care', 3);
+
+-- Insert EventTags
+INSERT INTO EventTags (event_id, tag_id) VALUES
+	(1, 1), -- Change Vacuum Bag tagged as Maintenance
+	(2, 2), -- Dentist Appointment tagged as Health
+	(3, 3); -- Hairdresser Visit tagged as Personal Care
+
+-- Insert SharedEvents
+INSERT INTO SharedEvents (event_id, user_id, permissions) VALUES
+	(1, 2, 'Read'), -- John shared "Change Vacuum Bag" with Jane
+	(2, 3, 'Read'); -- Jane shared "Dentist Appointment" with Alice
+
+-- Insert Reminders
+INSERT INTO Reminders (title, description, interval, next_reminder_date, event_id) VALUES
+	('Change Vacuum Bag Reminder', 'Remind to change vacuum cleaner bag', 30, '2025-02-15', 1),
+	('Dentist Check-Up Reminder', 'Routine dentist visit every 6 months', 180, '2025-08-01', 2);
